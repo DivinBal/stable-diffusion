@@ -1,0 +1,35 @@
+import os
+import zipfile
+import time
+from google.colab import drive
+
+# Montar Google Drive
+drive.mount('/content/drive')
+
+# Ruta del archivo ZIP en Google Drive
+zip_file_path = '/content/drive/My Drive/sd_webui_folder/sd.webui.zip'  # Asegúrate de que el nombre del archivo sea correcto
+
+# Ruta donde se descomprimirá la carpeta
+extract_folder_path = '/content/sd.webui'
+
+# Descomprimir el archivo ZIP
+with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
+    zip_ref.extractall(extract_folder_path)
+
+# Ruta de los archivos .bat
+update_bat_path = os.path.join(extract_folder_path, 'update.bat')
+run_bat_path = os.path.join(extract_folder_path, 'run.bat')
+
+# Ejecutar el archivo .bat 'update'
+print("Ejecutando update.bat...")
+os.system(f'cmd /c "{update_bat_path}"')
+
+# Esperar a que el archivo .bat termine de ejecutarse
+time.sleep(5)  # Ajusta el tiempo según sea necesario
+
+# Ejecutar el archivo .bat 'run'
+print("Ejecutando run.bat...")
+os.system(f'cmd /c "{run_bat_path}"')
+
+# Nota: El archivo 'run.bat' puede abrir un enlace en el navegador. 
+# Asegúrate de que el script 'run.bat' imprima el enlace que necesitas.
